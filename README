@@ -1,0 +1,12 @@
+I recently had my linux computer stolen and I really miss having shortcuts to launch things like terminals and what-not.
+So I figured I'd write a tool that runs in the background and I can define what I want it to do with a config file (not implemented yet)
+
+If you want to mess with the code - I'm using visual studio 2012 for this particular project,
+enjoy!
+
+
+USEAGE:
+press "+" and "s" in quick procession to launch a windows command shell
+
+TODO:
+add support for defining hot-keys to file
