@@ -1,0 +1,6 @@
+// This is the configuration file that determine's the hot key for the launcher
+// The first line is the ctrl key (right now it is limited to *,/,+,- as your options)
+// The following lines are the command key followed by '=' then the path to the program's .exe file
+// To execute program press the chosen ctrl key followed by the command key to launch a specific program
++
+s=C:\Windows\System32\cmd.exe

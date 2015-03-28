@@ -1,12 +1,6 @@
-I recently had my linux computer stolen and I really miss having shortcuts to launch things like terminals and what-not.
-So I figured I'd write a tool that runs in the background and I can define what I want it to do with a config file (not implemented yet)
+Just a little tool to run in the background of a windows machine that launches
+programs via user-defined hot-keys
 
-If you want to mess with the code - I'm using visual studio 2012 for this particular project,
-enjoy!
-
-
-USEAGE:
-press "+" and "s" in quick procession to launch a windows command shell
-
-TODO:
-add support for defining hot-keys to file
+The config file has been implemented, although it only currently
+supports launching a single program and it also can't deal with
+a system path with space's, but it does work otherwise.

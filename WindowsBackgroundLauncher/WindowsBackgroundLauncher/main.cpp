@@ -1,7 +1,7 @@
 #include "main.h"
 using namespace std;
 
-// #define DEBUG // uncomment this to get a debug window and make sure that the system can get see the keys, otherwise program will disconnect from the console
+ #define DEBUG // uncomment this to get a debug window and make sure that the system can get see the keys, otherwise program will disconnect from the console
 			     // immediately after startup
 
 int main(int argc, char* argv[]){
@@ -10,12 +10,54 @@ int main(int argc, char* argv[]){
 	FreeConsole();
 #endif
 
-	bool active = true;
+	ifstream configFile;
+	string line;
+	string delimiter = "=";
+	string CMD = "start ";
 	int c=0;
 	SHORT state;
+	bool active = true;
+	bool firstLine = true;
+	bool firstSpace = true;
 	bool ctrlSet = false;
 	bool specialKeySet = false;
 	int timeout = 0;
+	int CTRLKEY = 0;
+	int CMDKEY = 0;
+
+
+	configFile.open("..\\WindowsBackgroundLauncher\\config.txt");
+
+	if(configFile.is_open()){
+		while(getline(configFile,line)){
+			if(firstLine){// determine control key
+				if(line[0] == '/' && line[1]=='/') // ignore commments, so first line becomes the first line below "//" in config.txt
+					continue;
+
+				CTRLKEY = (int)line[0]+64;
+				firstLine=false;
+			}
+			else{
+				if(line[0]=='/' && line[1]=='/') // ignore comments
+					continue;
+				CMDKEY=(int)line[0] - 32;
+				line.erase(0,delimiter.length()+1);
+				for(int i = 0; i< line.length();i++){
+					if(line[i]==' '){
+						if(firstSpace){
+							firstSpace=false;
+						}
+						else {
+							line[i]='\ ';
+						}
+					}
+				}
+				CMD.append(line);
+			}
+		}
+	}
+
+
 
 
 	while(active){
@@ -28,14 +70,13 @@ int main(int argc, char* argv[]){
 #ifdef DEBUG
 				cout << c << endl;
 #endif
-					 switch(c){
-						case VK_ADD:
+						if(c==CTRLKEY){
 							ctrlSet = true;
-							timeout = 1000000;
-							break;
-						case 0x53:
+							timeout = 3;
+						}
+						else if(c==CMDKEY){
 							specialKeySet = true;
-							break;
+						}
 					  }
 
 #ifdef DEBUG
@@ -47,7 +88,7 @@ int main(int argc, char* argv[]){
 					timeout--;
 
 					if(specialKeySet == true && ctrlSet == true){
-						system("start %windir%\\system32\\cmd.exe");
+						system(CMD.c_str());
 						specialKeySet=false;
 						ctrlSet=false;
 					}
@@ -59,6 +100,6 @@ int main(int argc, char* argv[]){
 				}
 
 		}
-	}
+	
 	return 0;
 }
